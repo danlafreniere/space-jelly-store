@@ -1,11 +1,10 @@
 import Head from "next/head";
 import Link from "next/link";
+import Image from "next/image";
 
 import Layout from "@components/Layout";
 import Container from "@components/Container";
 import Button from "@components/Button";
-
-import products from "@data/products";
 
 import styles from "@styles/Page.module.scss";
 
@@ -16,12 +15,10 @@ import {
   gql,
 } from "@apollo/client";
 
-export default function Home({ homePage }) {
-  console.log(homePage);
-  const { heroLink, heroText, heroTitle, heroBackground } = homePage;
+export default function HomeheroTitle({ homePage, products }) {
+  const { heroLink, heroTitle, heroText, heroBackground } = homePage;
   return (
     <Layout>
-      }
       <Head>
         <title>Space Jelly Gear</title>
         <meta name="description" content="Get your Space Jelly gear!" />
@@ -30,15 +27,17 @@ export default function Home({ homePage }) {
         <h1 className="sr-only">Space Jelly Gear</h1>
 
         <div className={styles.hero}>
-          <Link href="#">
+          <Link href={heroLink}>
             <a>
               <div className={styles.heroContent}>
                 <h2>{heroTitle}</h2>
                 <p>{heroText}</p>
               </div>
-              <img
+              <Image
                 className={styles.heroImage}
                 src={heroBackground.url}
+                width={heroBackground.width}
+                height={heroBackground.height}
                 alt=""
               />
             </a>
@@ -48,16 +47,16 @@ export default function Home({ homePage }) {
         <h2 className={styles.heading}>Featured Gear</h2>
 
         <ul className={styles.products}>
-          {products.slice(0, 4).map((product) => {
+          {products.map((product) => {
             return (
               <li key={product.id}>
-                <Link href="#">
+                <Link href={product.slug}>
                   <a>
                     <div className={styles.productImage}>
-                      <img
-                        width="500"
-                        height="500"
-                        src={product.image}
+                      <Image
+                        width={product.image.width}
+                        height={product.image.height}
+                        src={product.image.url}
                         alt=""
                       />
                     </div>
@@ -79,7 +78,7 @@ export default function Home({ homePage }) {
 
 export async function getStaticProps() {
   const client = new ApolloClient({
-    uri: "https://api-us-west-2.hygraph.com/v2/clahfh7mf0p0e01t29ja4d9ep/master",
+    uri: "https://api-us-west-2.hygraph.com/v2/clbbm55040zar01t54khm9f7f/master",
     cache: new InMemoryCache(),
   });
 
@@ -98,14 +97,27 @@ export async function getStaticProps() {
             width
           }
         }
+        products(first: 4) {
+          id
+          name
+          price
+          slug
+          image {
+            url
+            height
+            width
+          }
+        }
       }
     `,
   });
 
   const homePage = data.data.page;
+  const products = data.data.products;
   return {
     props: {
       homePage,
+      products,
     },
   };
 }

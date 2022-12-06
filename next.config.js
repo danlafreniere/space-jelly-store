@@ -1,3 +1,11 @@
 module.exports = {
-  reactStrictMode: true
-}
+  reactStrictMode: true,
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "media.graphassets.com",
+      },
+    ],
+  },
+};
