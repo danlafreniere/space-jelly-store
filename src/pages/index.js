@@ -50,7 +50,7 @@ export default function HomeheroTitle({ homePage, products }) {
           {products.map((product) => {
             return (
               <li key={product.id}>
-                <Link href={product.slug}>
+                <Link href={"products/" + product.slug}>
                   <a>
                     <div className={styles.productImage}>
                       <Image
