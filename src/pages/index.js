@@ -78,7 +78,7 @@ export default function HomeheroTitle({ homePage, products }) {
 
 export async function getStaticProps() {
   const client = new ApolloClient({
-    uri: "https://api-us-west-2.hygraph.com/v2/clbbm55040zar01t54khm9f7f/master",
+    uri: process.env.ENDPOINT,
     cache: new InMemoryCache(),
   });
 
