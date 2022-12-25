@@ -6,6 +6,14 @@ module.exports = {
         protocol: "https",
         hostname: "media.graphassets.com",
       },
+      {
+        protocol: "http",
+        hostname: "res.cloudinary.com",
+      },
+      {
+        protocol: "https",
+        hostname: "res.cloudinary.com",
+      },
     ],
   },
 };
